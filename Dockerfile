@@ -14,6 +14,9 @@ RUN pip install -r requirements.txt
 
 RUN pip install -e .
 
+RUN apt-get update
+RUN apt-get install libgl1-mesa-glx -y
+
 COPY . /app
 
 EXPOSE 5000

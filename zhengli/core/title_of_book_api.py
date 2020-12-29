@@ -57,8 +57,7 @@ def get_ISBN_from_title(title):
     h = {'Authorization': '43360_fd60754106422e4ff2600025312a1118'}
     title = title.title()
 
-    resp = requests.get("https://api2.isbndb.com/books/{"
-                        + title + "}", headers=h)
+    resp = requests.get("https://api2.isbndb.com/books/{" + title + "}", headers=h)
 
     results = resp.json()['books']
     # print('Acquired following info about the book {}'.format(results))
@@ -332,8 +331,7 @@ def get_ddc_from_isbn(isbn_string):
     return ddc
 
 
-def get_ddc_api(ISBN=None, title=None, author_name=None,
-                detected_text=None, pub_list_path=None, image_id=None):
+def get_ddc_api(ISBN=None, title=None, author_name=None, detected_text=None, pub_list_path=None, image_id=None):
     print('calling api to get ddc ')
     ddc = None
     publisher_list = load_publisher(pub_list_path)
@@ -347,11 +345,8 @@ def get_ddc_api(ISBN=None, title=None, author_name=None,
     else:
         response = get_ISBN_from_title(title)
 
-        best_match_response = get_best_match_response(response,
-                                                      detected_text,
-                                                      publisher_list)
-        ISBN, genre = extract_IBSN_from_api_return(
-            best_match_response)
+        best_match_response = get_best_match_response(response, detected_text, publisher_list)
+        ISBN, genre = extract_IBSN_from_api_return(best_match_response)
         print(ISBN, genre)
         url = form_url(ISBN)
         response = get_response(url)
@@ -360,7 +355,6 @@ def get_ddc_api(ISBN=None, title=None, author_name=None,
             print('ddc is none and genre is not none')
             ddc = check_genre_ddc(genre)
 
-        print('ddc is {} and best match book is {}'.
-              format(ddc, best_match_response))
+        print('ddc is {} and best match book is {}'.format(ddc, best_match_response))
 
     return ddc, best_match_response

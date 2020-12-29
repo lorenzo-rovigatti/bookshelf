@@ -10,13 +10,12 @@ def detect_text(path):
 
     print('calling api to recognize text from image')
 
-    client = vision.ImageAnnotatorClient.from_service_account_json(
-        'google_api_cred.json')
+    client = vision.ImageAnnotatorClient.from_service_account_json('google_api_cred.json')
 
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
 
-    image = vision.types.Image(content=content)
+    image = vision.Image(content=content)
 
     response = client.text_detection(image=image)
     texts = response.text_annotations
